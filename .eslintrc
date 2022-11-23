@@ -1,6 +1,6 @@
 {
   "extends": ["react-app", "react-app/jest"],
-  "ignorePatterns": ["*.css", "*.svg"],
+  "ignorePatterns": ["*.css", "*.svg", "*.scss"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
