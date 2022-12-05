@@ -1,65 +1,28 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import Post from '../components/post/Post';
 import http from '../config/axiosConfig';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import Button from '../components/button/Button';
-import Field from '../components/field/Field';
-import Input from '../components/input/Input';
-import Label from '../components/label/Label';
-import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/auth-context';
 
 const UserDetailPage = () => {
-  const schema = yup
-    .object({
-      name: yup.string().required('Please enter your name'),
-    })
-    .required();
-  const navigate = useNavigate();
-
-  const { user } = useAuth();
-  const [info, setFnfo] = useState({
-    name: 'Van Hung',
-  });
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-    mode: 'onSubmit',
-    defaultValues: {
-      name: '',
-    },
-  });
-  const onSubmit = (e) => {
-    console.log(e);
-    update(e);
-  };
-  function update(value) {
-    http
-      .post('users/update', value)
-      .then((res) => {
-        console.log('Update success: ', res);
-        localStorage.setItem('token', res.data.token);
-      })
-      .then(() => {
-        http.get('/me').then((resUser) => {
-          setFnfo(resUser.data);
-          navigate('/');
-        });
-      })
-      .catch((err) => {
-        console.log('error: ', err);
-      });
-  }
+  const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState();
+  const params = useParams();
+  const _id = params.id;
   useEffect(() => {
     http
-      .get('posts/of/me')
+      .get(`posts/of/users/${_id}`)
       .then((res) => {
         console.log(res);
-        setFnfo(res?.data);
+        setPosts(res?.data?.rows);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    http
+      .get(`users/${_id}`)
+      .then((res) => {
+        console.log(res);
+        setUser(res?.data);
       })
       .catch((err) => {
         console.log(err);
@@ -86,20 +49,24 @@ const UserDetailPage = () => {
       </div>
       <div className="h-[1px] w-full bg-slate-200 mt-10"></div>
       <div className="w-[500px] mx-auto pt-10 flex flex-col gap-8">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Field>
-            <Label name="username">Name</Label>
-            <Input type="text" name="name" control={control}></Input>
-            {errors.name && (
-              <p className="text-sm text-red-500 color-red">
-                {errors.name.message}
-              </p>
-            )}
-          </Field>
-        </form>
-        <Button type="submit" styleClass="ml-auto w-40">
-          Update
-        </Button>
+        {posts.map((post) => {
+          const createdAt = post.createdAt.slice(0, 10);
+          return (
+            <Post
+              key={post._id}
+              userName={post?.user.name}
+              content={post.content}
+              totalLikes={post.totalLikes}
+              totalShares={post.totalShares}
+              totalComments={post.totalComments}
+              _id={post._id}
+              createdAt={createdAt}
+              userId={post.user._id}
+              isLike={post.isLike}
+              attachments={post.attachments || []}
+            />
+          );
+        })}
       </div>
     </div>
   );

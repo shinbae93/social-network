@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage';
 import UserDetailPage from './pages/UserDetailPage';
 import RegisterPage from './pages/RegisterPage';
 import SearchPage from './pages/SearchPage';
+import DetailPost from './components/post/DetailPost';
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
             <Route path="/post-add" element={<PostAddPage />}></Route>
             <Route path="/post-update/:id" element={<PostUpdatePage />}></Route>
             <Route path="/profile" element={<ProfilePage />}></Route>
-            <Route path="/user" element={<UserDetailPage />}></Route>
+            <Route path="/user/:id" element={<UserDetailPage />}></Route>
             <Route path="/search" element={<SearchPage />}></Route>
+            <Route path="/post/:id" element={<DetailPost />}></Route>
           </Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>

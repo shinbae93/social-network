@@ -10,18 +10,40 @@ import { useParams } from 'react-router-dom';
 
 const PostAddPage = () => {
   const params = useParams();
+  const id = params.id;
   const { user } = useAuth();
   const [imageFiles, setImageFiles] = useState([]);
+  const [post, setPost] = useState();
   const {
     handleSubmit,
     formState: { errors },
     register,
+    reset,
   } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       content: '',
     },
   });
+  useEffect(() => {
+    http.get(`posts/${id}`).then((res) => {
+      console.log(res.data);
+      setPost(res?.data);
+      reset({
+        content: res?.data.content,
+      });
+      const listImageUpdate = [];
+      res?.data?.images.map((image) =>
+        listImageUpdate.push({
+          file: {
+            name: '',
+          },
+          url: image.url,
+        })
+      );
+      setImageFiles(listImageUpdate);
+    });
+  }, [id]);
   useEffect(() => {
     const errorsList = Object.values(errors);
     if (errorsList.length > 0) {
@@ -37,9 +59,9 @@ const PostAddPage = () => {
     formData.append('content', values.content);
     formData.append('userId', user._id);
     const token = localStorage.getItem('token');
-    console.log(token);
+
     axios
-      .put(`http://192.168.10.41:3000/api/v1/posts/${params.id}`, formData, {
+      .put(`http://192.168.20.44:3000/api/v1/posts/${id}`, formData, {
         headers: {
           token: `Bearer ${token}`,
         },

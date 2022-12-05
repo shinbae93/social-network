@@ -4,7 +4,6 @@ import UploadImage from '../components/uploadImage/UploadImage';
 import Button from '../components/button/Button';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import http from '../config/axiosConfig';
 import axios from 'axios';
 
 const PostAddPage = () => {
@@ -37,7 +36,7 @@ const PostAddPage = () => {
     const token = localStorage.getItem('token');
     console.log(token);
     axios
-      .post('http://192.168.10.41:3000/api/v1/posts', formData, {
+      .post('http://192.168.20.44:3000/api/v1/posts', formData, {
         headers: {
           token: `Bearer ${token}`,
         },

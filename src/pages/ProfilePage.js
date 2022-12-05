@@ -55,6 +55,7 @@ const ProfilePage = () => {
               createdAt={createdAt}
               userId={post.user._id}
               isLike={post.isLike}
+              attachments={post.attachments || []}
             />
           );
         })}

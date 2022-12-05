@@ -1,6 +1,5 @@
 import React from 'react';
 import { AiFillHome } from 'react-icons/ai';
-import { BsSearch, BsMessenger } from 'react-icons/bs';
 import { MdOutlineExplore } from 'react-icons/md';
 import { FiHeart } from 'react-icons/fi';
 import { CgDetailsMore } from 'react-icons/cg';
@@ -14,20 +13,15 @@ const sidebarItem = [
     link: '/',
     icon: <AiFillHome className="w-full" />,
   },
+
   {
     id: 1,
-    name: 'Search',
-    link: '/search',
-    icon: <BsSearch className="w-full" />,
-  },
-  {
-    id: 2,
     name: 'Explore',
     link: '/explore',
     icon: <MdOutlineExplore className="w-full" />,
   },
   {
-    id: 3,
+    id: 2,
     name: 'Message',
     link: '/message',
     icon: (
@@ -54,13 +48,13 @@ const sidebarItem = [
     ),
   },
   {
-    id: 4,
+    id: 3,
     name: 'Notification',
     link: '/notification',
     icon: <FiHeart className="w-full" />,
   },
   {
-    id: 5,
+    id: 4,
     name: 'Create',
     link: '/post-add',
     icon: (
