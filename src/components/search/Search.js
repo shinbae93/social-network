@@ -8,6 +8,7 @@ const Search = () => {
     setSearch(e.target.value);
   };
   useEffect(() => {
+    if (!search) return;
     http.get(`users?name=${search}`).then((res) => {
       setUsers(res?.data.rows);
     });
@@ -22,7 +23,7 @@ const Search = () => {
           className="outline-none w-full rounded-lg px-4 py-2 border border-purple-400"
         />
         {search && (
-          <div className="w-full  px-3 py-3 bg-slate-50 shadow-md absolute rounded-lg">
+          <div className="w-full  px-3 py-3 bg-slate-50 shadow-md absolute rounded-lg z-30">
             {users.map((user) => {
               return (
                 <div

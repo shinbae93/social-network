@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { BiRightArrow } from 'react-icons/bi';
+import { BiDotsHorizontalRounded } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 import http from '../../config/axiosConfig';
 import { useAuth } from '../../context/auth-context';
+import { SwiperSlide, Swiper } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const Post = ({
   userName,
@@ -9,6 +15,7 @@ const Post = ({
   totalLikes,
   totalShares,
   totalComments,
+  attachments,
   _id,
   createdAt,
   userId,
@@ -20,6 +27,7 @@ const Post = ({
   const [commentList, setCommentList] = useState([]);
   const [like, setLike] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
     setTotalComment(totalComments);
     setTotalLike(totalLikes);
@@ -60,6 +68,12 @@ const Post = ({
         setLike((prev) => !prev);
       });
   };
+  const updatePost = () => {
+    navigate(`/post-update/${_id}`);
+  };
+  const handleClickCommentIcon = () => {
+    navigate(`/post/${_id}`);
+  };
   return (
     <div className="post flex flex-col w-[480px] gap-3">
       <div className="flex flex-row gap-3 items-center">
@@ -71,20 +85,48 @@ const Post = ({
           />
         </div>
         <div className="flex flex-col">
-          <span className="font-semibold">{userName}</span>
+          <span
+            className="font-semibold cursor-pointer"
+            onClick={() => navigate(`user/${userId}`)}
+          >
+            {userName}
+          </span>
           <span className="text-xs text-slate-400">{createdAt}</span>
         </div>
+        {userId === user._id && (
+          <div className="ml-auto cursor-pointer" onClick={updatePost}>
+            <BiDotsHorizontalRounded />
+          </div>
+        )}
       </div>
-      <div className="w-full h-[500px]">
-        <img
-          alt=""
-          src="https://images.unsplash.com/photo-1635961099150-ce851800a1a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-          className="w-full h-full object-cover rounded-md"
-        />
-      </div>
+      {attachments.length > 0 && (
+        <div className="w-full h-[500px]">
+          <Swiper
+            slidesPerView={1}
+            modules={[Navigation, Pagination]}
+            navigation={true}
+            pagination={{ clickable: true }}
+            parallax={true}
+          >
+            {attachments.map((item) => {
+              return (
+                <SwiperSlide>
+                  <div className="h-full">
+                    <img
+                      src={item}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
+      )}
+
       <div className="flex flex-row gap-3 items-center">
         <svg
-          // color="#ef4444"
           fill={like ? '#ef4444' : '#262626'}
           height="24"
           role="img"
@@ -102,6 +144,8 @@ const Post = ({
           role="img"
           viewBox="0 0 24 24"
           width="24"
+          className="cursor-pointer"
+          onClick={handleClickCommentIcon}
         >
           <path
             d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"
