@@ -44,7 +44,6 @@ const DetailPost = () => {
         userId: user._id,
       })
       .then((res) => {
-        console.log(res);
         setTotalLike(res.data.totalLikes);
         setLike((prev) => !prev);
       });
@@ -62,13 +61,11 @@ const DetailPost = () => {
         content: comment,
       })
       .then((res) => {
-        console.log('success comment: ', res);
         setComment('');
         setTotalComment((prev) => prev + 1);
       })
       .then((res) => {
         http.get(`posts/${_id}`).then((res) => {
-          console.log('postDetail', res);
           setCommentList(res?.data.comments);
         });
       })
@@ -76,6 +73,7 @@ const DetailPost = () => {
         console.log('comment err: ', err);
       });
   };
+  console.log(comment);
   return ReactDOM.createPortal(
     <div className="modal fixed inset-0 z-50 flex items-center justify-center p-5">
       <div className="absolute inset-0 bg-black bg-opacity-30 overlay"></div>

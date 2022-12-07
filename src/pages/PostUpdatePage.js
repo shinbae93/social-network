@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import http from '../config/axiosConfig';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PostAddPage = () => {
   const params = useParams();
@@ -14,6 +14,8 @@ const PostAddPage = () => {
   const { user } = useAuth();
   const [imageFiles, setImageFiles] = useState([]);
   const [post, setPost] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     handleSubmit,
     formState: { errors },
@@ -33,12 +35,12 @@ const PostAddPage = () => {
         content: res?.data.content,
       });
       const listImageUpdate = [];
-      res?.data?.images.map((image) =>
+      res?.data?.attachments.map((image) =>
         listImageUpdate.push({
           file: {
-            name: '',
+            name: image,
           },
-          url: image.url,
+          url: image,
         })
       );
       setImageFiles(listImageUpdate);
@@ -51,6 +53,7 @@ const PostAddPage = () => {
     }
   }, [errors]);
   const addPost = (values) => {
+    setIsLoading(true);
     const formData = new FormData();
 
     imageFiles.forEach((item) => {
@@ -61,17 +64,24 @@ const PostAddPage = () => {
     const token = localStorage.getItem('token');
 
     axios
-      .put(`http://192.168.20.44:3000/api/v1/posts/${id}`, formData, {
-        headers: {
-          token: `Bearer ${token}`,
-        },
-      })
+      .put(
+        `https://social-network-prod-ong-troc-wlfcze.mo2.mogenius.io/api/v1/posts/${id}`,
+        formData,
+        {
+          headers: {
+            token: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
+        navigate('/profile');
+        setIsLoading(false);
         toast.success('success');
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
         toast.error('error');
       });
   };
@@ -99,7 +109,7 @@ const PostAddPage = () => {
               imageFiles={imageFiles}
               setImageFiles={setImageFiles}
             />
-            <Button type="submit" styleClass="w-full">
+            <Button type="submit" isLoading={isLoading} styleClass="w-full">
               Update
             </Button>
           </form>

@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import http from "../config/axiosConfig";
+import { createContext, useContext, useEffect, useState } from 'react';
+import http from '../config/axiosConfig';
 
 const AuthContext = createContext();
 
@@ -8,7 +8,7 @@ const AuthProvider = (props) => {
   const value = { user, setUser };
   useEffect(() => {
     http
-      .get("/me")
+      .get('/me')
       .then((res) => {
         setUser(res.data);
       })
@@ -21,8 +21,8 @@ const AuthProvider = (props) => {
 
 const useAuth = () => {
   const context = useContext(AuthContext);
-  if (typeof context === "undefined")
-    throw new Error("useAuth must be used within AuthProvider");
+  if (typeof context === 'undefined')
+    throw new Error('useAuth must be used within AuthProvider');
   return context;
 };
 export { AuthProvider, useAuth };

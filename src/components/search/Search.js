@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import http from '../../config/axiosConfig';
+import { useAuth } from '../../context/auth-context';
 
 const Search = () => {
   const [search, setSearch] = useState('');
   const [users, setUsers] = useState([]);
+  const { user: userAuth } = useAuth();
+  const navigate = useNavigate();
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
@@ -28,7 +32,11 @@ const Search = () => {
               return (
                 <div
                   key={user._id}
-                  className="w-full px-3 py-2 flex flex-row gap-3 items-center"
+                  className="w-full px-3 py-2 flex flex-row gap-3 items-center cursor-pointer"
+                  onClick={() => {
+                    if (user._id === userAuth._id) navigate('/profile');
+                    else navigate(`/user/${user._id}`);
+                  }}
                 >
                   <div className="w-[40px] h-[40px]">
                     <img

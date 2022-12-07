@@ -3,7 +3,8 @@ import { AiFillHome } from 'react-icons/ai';
 import { MdOutlineExplore } from 'react-icons/md';
 import { FiHeart } from 'react-icons/fi';
 import { CgDetailsMore } from 'react-icons/cg';
-import { NavLink } from 'react-router-dom';
+
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
 
 const sidebarItem = [
@@ -102,7 +103,13 @@ const sidebarItem = [
 ];
 
 const Sidebar = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    if (!user.id) navigate('/login');
+    localStorage.removeItem('token');
+    setUser({});
+  };
   return (
     <div className="sidebar w-[244px] min-w-[244px] h-full border-r border-slate-200 fixed">
       <div className="flex flex-col w-full h-full relative">
@@ -154,11 +161,14 @@ const Sidebar = () => {
             <span className="text-base font-medium">{user?.name}</span>
           </NavLink>
         </div>
-        <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px] mt-auto">
+        <div
+          onClick={handleSignOut}
+          className="flex flex-row w-full px-4 gap-5 items-center relative h-[64px] mt-auto cursor-pointer"
+        >
           <div className="text-2xl">
             <CgDetailsMore className="w-full" />
           </div>
-          <span>More</span>
+          <span>Sign-out</span>
         </div>
       </div>
     </div>

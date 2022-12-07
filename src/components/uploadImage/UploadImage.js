@@ -17,10 +17,6 @@ const UploadImage = ({ imageFiles, setImageFiles }) => {
     }
     setImageFiles([...imageFiles, ...list]);
   };
-  console.log(
-    '🚀 ~ file: UploadImage.js ~ line 10 ~ handleFileInput ~ imageFiles',
-    imageFiles
-  );
   const handleDeleteImage = (item) => {
     let listImage = [];
     listImage = imageFiles.filter(

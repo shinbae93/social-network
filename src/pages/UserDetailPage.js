@@ -27,7 +27,7 @@ const UserDetailPage = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [_id]);
   return (
     <div className="mt-10 mx-auto w-full max-w-[800px]">
       <div className="flex flex-row items-start gap-10">

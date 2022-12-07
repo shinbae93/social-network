@@ -5,10 +5,13 @@ import Button from '../components/button/Button';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PostAddPage = () => {
   const { user } = useAuth();
   const [imageFiles, setImageFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     handleSubmit,
     formState: { errors },
@@ -26,6 +29,7 @@ const PostAddPage = () => {
     }
   }, [errors]);
   const addPost = (values) => {
+    setIsLoading(true);
     const formData = new FormData();
 
     imageFiles.forEach((item) => {
@@ -34,20 +38,25 @@ const PostAddPage = () => {
     formData.append('content', values.content);
     formData.append('userId', user._id);
     const token = localStorage.getItem('token');
-    console.log(token);
     axios
-      .post('http://192.168.20.44:3000/api/v1/posts', formData, {
-        headers: {
-          token: `Bearer ${token}`,
-        },
-      })
+      .post(
+        'https://social-network-prod-ong-troc-wlfcze.mo2.mogenius.io/api/v1/posts',
+        formData,
+        {
+          headers: {
+            token: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
-        console.log(res);
         toast.success('success');
+        navigate('/profile');
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
         toast.error('error');
+        setIsLoading(false);
       });
   };
 
@@ -84,7 +93,7 @@ const PostAddPage = () => {
               imageFiles={imageFiles}
               setImageFiles={setImageFiles}
             />
-            <Button type="submit" styleClass="w-full">
+            <Button type="submit" styleClass="w-full" isLoading={isLoading}>
               Submit
             </Button>
           </form>
