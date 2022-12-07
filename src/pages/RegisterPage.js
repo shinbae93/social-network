@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '../components/button/Button';
 import Field from '../components/field/Field';
@@ -12,6 +12,7 @@ import { useAuth } from '../context/auth-context';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { setUser } = useAuth();
   const schema = yup
     .object({
@@ -44,7 +45,7 @@ const RegisterPage = () => {
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
+    setIsLoading(true);
     const user = {
       email: data.email,
       name: data.username,
@@ -59,11 +60,15 @@ const RegisterPage = () => {
       })
       .then(() => {
         http.get('/me').then((resUser) => {
+          setIsLoading(false);
           setUser(resUser.data);
           navigate('/');
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
   return (
     <div className="minH-[100vh] h-[100vh] w-[100%]  pt-10">

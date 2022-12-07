@@ -42,13 +42,11 @@ const Post = ({
         content: comment,
       })
       .then((res) => {
-        console.log('success comment: ', res);
         setComment('');
         setTotalComment((prev) => prev + 1);
       })
       .then((res) => {
         http.get(`posts/${_id}`).then((res) => {
-          console.log('postDetail', res);
           setCommentList(res?.data.comments);
         });
       })
@@ -63,7 +61,6 @@ const Post = ({
         userId: user._id,
       })
       .then((res) => {
-        console.log(res);
         setTotalLike(res.data.totalLikes);
         setLike((prev) => !prev);
       });
@@ -73,6 +70,10 @@ const Post = ({
   };
   const handleClickCommentIcon = () => {
     navigate(`/post/${_id}`);
+  };
+  const handleClickUserPost = () => {
+    if (user._id === userId) navigate(`/profile`);
+    else navigate(`/user/${userId}`);
   };
   return (
     <div className="post flex flex-col w-[480px] gap-3">
@@ -87,7 +88,7 @@ const Post = ({
         <div className="flex flex-col">
           <span
             className="font-semibold cursor-pointer"
-            onClick={() => navigate(`user/${userId}`)}
+            onClick={handleClickUserPost}
           >
             {userName}
           </span>
@@ -108,19 +109,20 @@ const Post = ({
             pagination={{ clickable: true }}
             parallax={true}
           >
-            {attachments.map((item) => {
-              return (
-                <SwiperSlide>
-                  <div className="h-full">
-                    <img
-                      src={item}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </SwiperSlide>
-              );
-            })}
+            {attachments.length > 0 &&
+              attachments.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <div className="h-full">
+                      <img
+                        src={item}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
           </Swiper>
         </div>
       )}
