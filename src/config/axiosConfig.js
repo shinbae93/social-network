@@ -4,9 +4,10 @@ import { toast } from 'react-toastify';
 class Http {
   constructor() {
     this.instance = axios.create({
-      baseURL: 'http://192.168.10.41:3000/api/v1/',
+      baseURL:
+        'https://social-network-prod-ong-troc-wlfcze.mo2.mogenius.io/api/v1',
 
-      timeout: 10000,
+      timeout: 20000,
       headers: {
         'Content-Type': 'application/json',
       },
