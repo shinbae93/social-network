@@ -31,9 +31,8 @@ const HomePageObs = () => {
           const createdAt = post.createdAt.slice(0, 10);
           if (posts.length === index + 1)
             return (
-              <div className="check" ref={lastElement}>
+              <div className="check" ref={lastElement} key={post._id}>
                 <Post
-                  key={post._id}
                   userName={post?.user.name}
                   content={post.content}
                   totalLikes={post.totalLikes}

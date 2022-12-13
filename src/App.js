@@ -18,7 +18,7 @@ function App() {
     <>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route element={<Layout />}>
             <Route
               path="/"
               element={<PrivateRoot component={<HomePageObs />} />}
