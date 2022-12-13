@@ -41,7 +41,7 @@ const Post = ({
     e.preventDefault();
     http
       .post(`comments`, {
-        userId: userId,
+        userId: user._id,
         postId: _id,
         content: comment,
       })
