@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '../components/button/Button';
 import Field from '../components/field/Field';
@@ -10,7 +10,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 import http from '../config/axiosConfig';
 import { useAuth } from '../context/auth-context';
-import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const schema = yup
@@ -37,7 +36,6 @@ const LoginPage = () => {
       password: '',
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { setUser } = useAuth();
   const onSubmit = (e) => {
@@ -46,7 +44,6 @@ const LoginPage = () => {
   };
 
   function login(value) {
-    setIsLoading(true);
     http
       .post('users/login', value)
       .then((res) => {
@@ -56,14 +53,11 @@ const LoginPage = () => {
       .then(() => {
         http.get('/me').then((resUser) => {
           setUser(resUser.data);
-          setIsLoading(false);
           navigate('/');
         });
       })
       .catch((err) => {
         console.log('error: ', err);
-        toast.error(err.data.message);
-        setIsLoading(false);
       });
   }
 
@@ -108,9 +102,7 @@ const LoginPage = () => {
               )}
             </Field>
             <div className="w-full flex justify-center pb-6">
-              <Button styleClass="w-[100%]" isLoading={isLoading}>
-                Sign In
-              </Button>
+              <Button styleClass="w-[100%]">Sign In</Button>
             </div>
           </form>
           <div className="text-sm flex justify-center text-gray">

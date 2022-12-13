@@ -1,115 +1,11 @@
 import React from 'react';
 import { AiFillHome } from 'react-icons/ai';
+import { BsSearch, BsMessenger } from 'react-icons/bs';
 import { MdOutlineExplore } from 'react-icons/md';
 import { FiHeart } from 'react-icons/fi';
 import { CgDetailsMore } from 'react-icons/cg';
 
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/auth-context';
-
-const sidebarItem = [
-  {
-    id: 0,
-    name: 'Home',
-    link: '/',
-    icon: <AiFillHome className="w-full" />,
-  },
-
-  {
-    id: 1,
-    name: 'Explore',
-    link: '/explore',
-    icon: <MdOutlineExplore className="w-full" />,
-  },
-  {
-    id: 2,
-    name: 'Message',
-    link: '/message',
-    icon: (
-      <svg
-        color="#262626"
-        fill="#262626"
-        height="24"
-        role="img"
-        viewBox="0 0 24 24"
-        width="24"
-      >
-        <path
-          d="M12.003 2.001a9.705 9.705 0 1 1 0 19.4 10.876 10.876 0 0 1-2.895-.384.798.798 0 0 0-.533.04l-1.984.876a.801.801 0 0 1-1.123-.708l-.054-1.78a.806.806 0 0 0-.27-.569 9.49 9.49 0 0 1-3.14-7.175 9.65 9.65 0 0 1 10-9.7Z"
-          fill="none"
-          stroke="currentColor"
-          strokeMiterlimit="10"
-          strokeWidth="1.739"
-        ></path>
-        <path
-          d="M17.79 10.132a.659.659 0 0 0-.962-.873l-2.556 2.05a.63.63 0 0 1-.758.002L11.06 9.47a1.576 1.576 0 0 0-2.277.42l-2.567 3.98a.659.659 0 0 0 .961.875l2.556-2.049a.63.63 0 0 1 .759-.002l2.452 1.84a1.576 1.576 0 0 0 2.278-.42Z"
-          fillRule="evenodd"
-        ></path>
-      </svg>
-    ),
-  },
-  {
-    id: 3,
-    name: 'Notification',
-    link: '/notification',
-    icon: <FiHeart className="w-full" />,
-  },
-  {
-    id: 4,
-    name: 'Create',
-    link: '/post-add',
-    icon: (
-      <svg
-        color="#262626"
-        fill="#262626"
-        height="24"
-        role="img"
-        viewBox="0 0 24 24"
-        width="24"
-      >
-        <path
-          d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z"
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-        ></path>
-        <line
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          x1="6.545"
-          x2="17.455"
-          y1="12.001"
-          y2="12.001"
-        ></line>
-        <line
-          fill="none"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          x1="12.003"
-          x2="12.003"
-          y1="6.545"
-          y2="17.455"
-        ></line>
-      </svg>
-    ),
-  },
-];
-
 const Sidebar = () => {
-  const { user, setUser } = useAuth();
-  const navigate = useNavigate();
-  const handleSignOut = () => {
-    if (!user.id) navigate('/login');
-    localStorage.removeItem('token');
-    setUser({});
-  };
   return (
     <div className="sidebar w-[244px] min-w-[244px] h-full border-r border-slate-200 fixed">
       <div className="flex flex-col w-full h-full relative">
@@ -131,26 +27,81 @@ const Sidebar = () => {
           </svg>
         </div>
         <div className="flex flex-col w-[220px] mx-auto">
-          {sidebarItem.map((item) => {
-            return (
-              <NavLink
-                to={item.link}
-                key={item.id}
-                className={({ isActive }) =>
-                  `flex flex-row w-full px-4 gap-5 items-center h-[64px] ${
-                    isActive ? 'font-bold' : 'font-medium'
-                  }`
-                }
+          <div className="flex flex-row w-full px-4 gap-5 items-center h-[64px]">
+            <div className="text-2xl">
+              <AiFillHome className="w-full" />
+            </div>
+            <span className="text-base font-medium">Home</span>
+          </div>
+          <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px]">
+            <div className="text-2xl">
+              <BsSearch className="w-full" />
+            </div>
+            <span className="text-base font-medium">Search</span>
+          </div>
+          <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px]">
+            <div className="text-2xl">
+              <MdOutlineExplore className="w-full" />
+            </div>
+            <span className="text-base font-medium">Explore</span>
+          </div>
+          <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px]">
+            <div className="text-2xl">
+              <BsMessenger className="w-full" />
+            </div>
+            <span className="text-base font-medium">Message</span>
+          </div>
+          <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px]">
+            <div className="text-2xl">
+              <FiHeart className="w-full" />
+            </div>
+            <span className="text-base font-medium">Notification</span>
+          </div>
+          <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px]">
+            <div className="text-2xl">
+              <svg
+                color="#262626"
+                fill="#262626"
+                height="24"
+                role="img"
+                viewBox="0 0 24 24"
+                width="24"
               >
-                <div className="text-2xl">{item.icon}</div>
-                <span className="text-base">{item.name}</span>
-              </NavLink>
-            );
-          })}
-          <NavLink
-            to={'/profile'}
-            className="flex flex-row w-full px-4 gap-5 items-center  h-[64px] cursor-pointer"
-          >
+                <path
+                  d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552Z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                ></path>
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  x1="6.545"
+                  x2="17.455"
+                  y1="12.001"
+                  y2="12.001"
+                ></line>
+                <line
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  x1="12.003"
+                  x2="12.003"
+                  y1="6.545"
+                  y2="17.455"
+                ></line>
+              </svg>
+            </div>
+            <span className="text-base font-medium">Create</span>
+          </div>
+          <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px]">
             <div className="w-6 h-6">
               <img
                 src="https://images.unsplash.com/photo-1665504953688-778589acb022?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
@@ -158,17 +109,14 @@ const Sidebar = () => {
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
-            <span className="text-base font-medium">{user?.name}</span>
-          </NavLink>
+            <span className="text-base font-medium">Profile</span>
+          </div>
         </div>
-        <div
-          onClick={handleSignOut}
-          className="flex flex-row w-full px-4 gap-5 items-center relative h-[64px] mt-auto cursor-pointer"
-        >
+        <div className="flex flex-row w-full px-4 gap-5 items-center  h-[64px] mt-auto">
           <div className="text-2xl">
             <CgDetailsMore className="w-full" />
           </div>
-          <span>Sign-out</span>
+          <span>More</span>
         </div>
       </div>
     </div>
