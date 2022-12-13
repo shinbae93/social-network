@@ -10,6 +10,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 import http from '../config/axiosConfig';
 import { useAuth } from '../context/auth-context';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const schema = yup
@@ -61,6 +62,7 @@ const LoginPage = () => {
       })
       .catch((err) => {
         console.log('error: ', err);
+        toast.error(err.data.message);
         setIsLoading(false);
       });
   }

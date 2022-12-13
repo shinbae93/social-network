@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 class Http {
   constructor() {
     this.instance = axios.create({
-      // baseURL: 'https://thirty-rooms-flow-116-98-170-42.loca.lt/api/v1/',
       baseURL:
         'https://social-network-prod-ong-troc-wlfcze.mo2.mogenius.io/api/v1',
 
