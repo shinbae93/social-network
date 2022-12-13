@@ -6,14 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
-
-Sentry.init({
-  dsn: 'https://5b61c6322a774ddbba36bab45035f856@o4504265655779328.ingest.sentry.io/4504265693986816',
-  integrations: [new BrowserTracing()],
-  tracesSampleRate: 1.0,
-});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
